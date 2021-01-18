@@ -6,6 +6,8 @@ public class IgnacioGil_AndrésPérez {
 
 	public static int matriz_a_CSV (String[][] inventario, String ruta) {
 
+		//COMMIT DE PRUEBA
+		System.out.println("No se puede abrir el fichero");
 		int num_lineas = 0;
 		try {
 			FileWriter fichero = new FileWriter(ruta);
