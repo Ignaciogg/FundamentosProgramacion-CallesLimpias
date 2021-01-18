@@ -38,6 +38,7 @@ public class IgnacioGil_AndrésPérez {
 				"  1 - Agregar Municipio" + "\n" +
 				"  2 - Cargar y Editar Municipio" + "\n" +
 				"  3 - Eliminar Municipio" + "\n" +
+				"  4 - Guardar" + "\n" +
 
 				"Opción: "
 		);
@@ -51,15 +52,38 @@ public class IgnacioGil_AndrésPérez {
 		return opcion;
 	}
 
-	public static int menuEdicion () {
+	public static int seleccionar_ID(int ID){
+		Scanner teclado = new Scanner(System.in);
+		boolean valido = false;
+		System.out.println("Introduce el ID del municipio con el que quieres trabajar (ej:1): ");
+		if (teclado.hasNextInt()) {
+			ID = teclado.nextInt();
+			//Siempre serán mayores que 0 y el máximo de la CdM son 179 municipios
+			if(ID > 0 && ID <= 179){
+				valido = true;
+			}
+		}
+		else
+			System.out.println("ERROR al introducir el ID");
+		if(valido == true){
+			System.out.println("Valor del ID válido");
+			return ID;
+		}
+		else{
+			System.out.println("ERROR, ID con valor erróneo");
+			return 0;
+		}
+	}
+
+	public static int menuEdicion (int iD) {
 		Scanner teclado = new Scanner(System.in);
 		int opcion = 0;
 
 		System.out.print(
 				"\n-------- Elija la opción --------" + "\n" +
-				"  0 - Salir" + "\n" +
-				"  1 - Agregar Municipio" + "\n" +
-				"  2 - Cargar y Editar Municipio" + "\n" +
+				"  0 - Volver" + "\n" +
+				"  1 - Cargar Municipio" + "\n" +
+				"  2 - Actualizar Municipio" + "\n" +
 				"  3 - Eliminar Municipio" + "\n" +
 
 				"Opción: "
@@ -139,32 +163,57 @@ public class IgnacioGil_AndrésPérez {
         }
     }
 
+	private static void añadirMunicipio(int cont) {
+		Scanner teclado = new Scanner(System.in);
+
+		System.out.println("");
+
+	}
+
 	public static void main(String[] args) {
 		int opcion = -1;
+		int opcion2 = -1;
+		int cont = 0;
+		int ID = 0;
+
+		String [][] municipios = {{}};
+		matriz_a_CSV(municipios, "municipios.csv");
 
 		while (opcion != 0) {
 			opcion = menuPrincipal();
 			switch (opcion) {
 			case 1:
+				añadirMunicipio(cont);
+				cont ++;
 				break;
 			case 2:
+				seleccionar_ID(ID);
+				while (opcion2 != 0) {
+					opcion2 = menuEdicion(ID);
+					switch(opcion2){
+					case 1:
+						break;
+					case 2:
+						break;
+					}
+				}
+
 				break;
 			case 3:
+
+				cont--;
 				break;
 			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
+
 				break;
 			case 0:
+				System.out.println("¡Hasta Pronto!");
 				break;
 			default:
 				System.out.println("Opción incorrecta!");
 			}
 		}
 	}
+
 
 }
