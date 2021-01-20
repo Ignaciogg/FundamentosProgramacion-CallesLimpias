@@ -163,43 +163,44 @@ public class IgnacioGil_AndrésPérez {
         }
     }
 
-	private static void añadirMunicipio(String[][] municipio1, int cont) {
+	private static boolean añadirMunicipio(String[][] municipio1, int cont, boolean calles) {
 
 		Scanner teclado = new Scanner(System.in);
 		String nombre = null;
 		int codigoPostal = 0;
 		int poblacion = 0;
-		boolean continuar = false;
-		boolean continuar2 = false;
-		boolean calles = false;
 		char answer = 'a';
+		boolean continua = true;
+		boolean continua2  = true;
 
 		System.out.println("Introduce el nombre del nuevo municipio: ");
 		if (teclado.hasNextLine()) {
 			nombre = teclado.nextLine();
-			continuar = true;
 		}
 		else
 			System.out.println("ERROR al introducir el nombre");
 
-		if(continuar = true){
+		System.out.println("Introduce el Código Postal del nuevo municipio: ");
+		if (teclado.hasNextInt()) {
+			codigoPostal = teclado.nextInt();
 
-			System.out.println("Introduce el Código Postal del nuevo municipio: ");
+		}
+		else{
+			System.out.println("ERROR al introducir el Código Postal");
+			continua = false;
+		}
+
+		if(continua == true){
+			System.out.println("Introduce la población del nuevo municipio: ");
 			if (teclado.hasNextInt()) {
-				codigoPostal = teclado.nextInt();
-				continuar2 =  true;
+				poblacion = teclado.nextInt();
 			}
-			else
-				System.out.println("ERROR al introducir el Código Postal");
+			else{
+				System.out.println("ERROR al introducir la población");
+				continua2 = false;
+			}
 
-			if(continuar2 = true){
-				System.out.println("Introduce la población del nuevo municipio: ");
-				if (teclado.hasNextInt()) {
-					poblacion = teclado.nextInt();
-				}
-				else
-					System.out.println("ERROR al introducir la población");
-
+			if(continua2 == true){
 				//ESCRIBE EN FICHERO
 				BufferedWriter bw = null;
 			      try {
@@ -219,11 +220,15 @@ public class IgnacioGil_AndrésPérez {
 			    			  }
 			      System.out.println("¿Quiere introducir ahora los datos de las calles de " + nombre + "?\n(S/s= SI, N/n = NO)");
 			      answer = teclado.next().charAt(0);
-			      if (answer == 's' || answer == 'S')
-			    	  calles = true;
-
+			      if (answer == 's' || answer == 'S' || answer == 'n' || answer == 'N'){
+			    	  if(answer == 's' || answer == 'S')
+			    		  calles = true;
+			      }
+			      else
+			    	  System.out.println("Letra incorrecta");
 			}
 		}
+		return calles;
 	}
 
 	public static void main(String[] args) {
@@ -231,9 +236,9 @@ public class IgnacioGil_AndrésPérez {
 		int opcion2 = -1;
 		int cont = 0;
 		int ID = 0;
+		boolean calles = false;
 
 		String [][] municipios = {{}};
-		String [][] municipio1 = {{}};
 		matriz_a_CSV(municipios, "municipios.csv");
 
 		System.out.println("Bienvenido al Proyecto de Programación nº3: Calles limpias de nieve");
@@ -242,7 +247,9 @@ public class IgnacioGil_AndrésPérez {
 			switch (opcion) {
 			case 1: //AÑADIR MUNICIPIO
 				cont ++;
-				añadirMunicipio(municipio1, cont);
+				añadirMunicipio(municipios, cont, calles);
+				if(calles == true)
+					System.out.println("continuar");
 				break;
 			case 2:
 				seleccionar_ID(ID);
@@ -258,8 +265,8 @@ public class IgnacioGil_AndrésPérez {
 
 				break;
 			case 3:
-
 				cont--;
+
 				break;
 			case 4:
 
