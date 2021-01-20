@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,7 +33,6 @@ public class IgnacioGil_AndrésPérez {
 		int opcion = 0;
 
 		System.out.print(
-				"Bienvenido al Proyecto de Programación nº3: Calles limpias de nieve \n"+
 				"\n-------- Elija el municipio sobre el que quiere trabajar --------" + "\n" +
 				"  0 - Salir" + "\n" +
 				"  1 - Agregar Municipio" + "\n" +
@@ -163,11 +163,67 @@ public class IgnacioGil_AndrésPérez {
         }
     }
 
-	private static void añadirMunicipio(int cont) {
+	private static void añadirMunicipio(String[][] municipio1, int cont) {
+
 		Scanner teclado = new Scanner(System.in);
+		String nombre = null;
+		int codigoPostal = 0;
+		int poblacion = 0;
+		boolean continuar = false;
+		boolean continuar2 = false;
+		boolean calles = false;
+		char answer = 'a';
 
-		System.out.println("");
+		System.out.println("Introduce el nombre del nuevo municipio: ");
+		if (teclado.hasNextLine()) {
+			nombre = teclado.nextLine();
+			continuar = true;
+		}
+		else
+			System.out.println("ERROR al introducir el nombre");
 
+		if(continuar = true){
+
+			System.out.println("Introduce el Código Postal del nuevo municipio: ");
+			if (teclado.hasNextInt()) {
+				codigoPostal = teclado.nextInt();
+				continuar2 =  true;
+			}
+			else
+				System.out.println("ERROR al introducir el Código Postal");
+
+			if(continuar2 = true){
+				System.out.println("Introduce la población del nuevo municipio: ");
+				if (teclado.hasNextInt()) {
+					poblacion = teclado.nextInt();
+				}
+				else
+					System.out.println("ERROR al introducir la población");
+
+				//ESCRIBE EN FICHERO
+				BufferedWriter bw = null;
+			      try {
+			    	  bw = new BufferedWriter(new FileWriter("municipios.csv", true));
+			    	  bw.write(cont + "\n" + nombre + "\n" + codigoPostal + "\n" + poblacion );
+			    	  bw.newLine();
+			    	  bw.flush();
+			    	  } catch (IOException ioe) {
+			    		  ioe.printStackTrace();
+			    		  } finally {
+			    			  if (bw != null)
+			    				  try {
+			    					  bw.close();
+			    				  } catch (IOException ioe2) {
+
+			    				  }
+			    			  }
+			      System.out.println("¿Quiere introducir ahora los datos de las calles de " + nombre + "?\n(S/s= SI, N/n = NO)");
+			      answer = teclado.next().charAt(0);
+			      if (answer == 's' || answer == 'S')
+			    	  calles = true;
+
+			}
+		}
 	}
 
 	public static void main(String[] args) {
@@ -177,14 +233,16 @@ public class IgnacioGil_AndrésPérez {
 		int ID = 0;
 
 		String [][] municipios = {{}};
+		String [][] municipio1 = {{}};
 		matriz_a_CSV(municipios, "municipios.csv");
 
+		System.out.println("Bienvenido al Proyecto de Programación nº3: Calles limpias de nieve");
 		while (opcion != 0) {
 			opcion = menuPrincipal();
 			switch (opcion) {
-			case 1:
-				añadirMunicipio(cont);
+			case 1: //AÑADIR MUNICIPIO
 				cont ++;
+				añadirMunicipio(municipio1, cont);
 				break;
 			case 2:
 				seleccionar_ID(ID);
